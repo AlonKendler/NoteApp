@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreatableReactSelect from "react-select/creatable";
 import { NoteData, Tags } from "./App";
 import { v4 as uuidV4 } from "uuid";
@@ -19,20 +19,18 @@ export function NoteForm({
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(
-      "handleSubmit:",
-      titleRef.current?.value,
-      markdownRef.current?.value
-    );
+
     // the ! is telling ts that we know value is not null (cuz required by bootsrap UI)
     onSubmit({
       title: titleRef.current!.value,
       markdown: markdownRef.current!.value,
       tags: selectedTags,
     });
+    navigate("..");
   };
 
   return (

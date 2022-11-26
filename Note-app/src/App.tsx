@@ -7,6 +7,7 @@ import { NewNote } from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./NoteList";
+import { NoteLayout } from "./NoteLayout";
 
 export type RawNote = {
   id: string;
@@ -78,7 +79,7 @@ function App() {
             />
           }
         />
-        <Route path="/:id">
+        <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
           <Route index element={<div>show</div>} />
           <Route path="edit" element={<div>edit</div>} />
         </Route>

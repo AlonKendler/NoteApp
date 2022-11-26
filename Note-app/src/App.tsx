@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import { NewNote } from "./NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
+import { NoteList } from "./NoteList";
 
 export type RawNote = {
   id: string;
@@ -61,9 +62,12 @@ function App() {
     setTags((prev) => [...prev, tag]);
   };
   return (
-    <Container className="">
+    <Container className="mt-4 mb-4">
       <Routes>
-        <Route path="/" element={<div>Hi</div>} />
+        <Route
+          path="/"
+          element={<NoteList availableTags={tags} notes={noteWithTags} />}
+        />
         <Route
           path="/new"
           element={

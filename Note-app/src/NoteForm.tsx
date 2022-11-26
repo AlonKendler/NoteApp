@@ -44,7 +44,7 @@ export function NoteForm({
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="title">
+            <Form.Group controlId="tags">
               <Form.Label>Tags</Form.Label>
               <CreatableReactSelect
                 isMulti

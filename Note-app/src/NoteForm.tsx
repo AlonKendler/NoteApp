@@ -2,23 +2,26 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableReactSelect from "react-select/creatable";
-import { NoteData, Tags } from "./App";
+import { Note, NoteData, Tags } from "./App";
 import { v4 as uuidV4 } from "uuid";
 
-interface NoteFormProps {
+type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tags) => void;
   availableTags: Tags[];
-}
+} & Partial<NoteData>;
 
 export function NoteForm({
   onSubmit,
   onAddTag,
   availableTags,
+  title = "",
+  markdown = "",
+  tags = [],
 }: NoteFormProps): React.ReactElement {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tags[]>(tags);
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
@@ -40,7 +43,7 @@ export function NoteForm({
           <Col>
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
-              <Form.Control ref={titleRef} required />
+              <Form.Control ref={titleRef} required defaultValue={title} />
             </Form.Group>
           </Col>
           <Col>
@@ -73,7 +76,13 @@ export function NoteForm({
         <Row>
           <Form.Group>
             <Form.Label>Body</Form.Label>
-            <Form.Control ref={markdownRef} required as="textarea" rows={10} />
+            <Form.Control
+              ref={markdownRef}
+              required
+              as="textarea"
+              rows={10}
+              defaultValue={markdown}
+            />
           </Form.Group>
         </Row>
         <Stack direction="horizontal" gap={2} className="justify-content-end">

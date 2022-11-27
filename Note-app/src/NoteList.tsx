@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Col, Row, Stack, Button, Form } from "react-bootstrap";
+import { Col, Row, Stack, Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select/creatable";
 import { Note, Tags } from "./App";
@@ -17,6 +17,7 @@ export function NoteList({
 }: NoteListProps): React.ReactElement {
   const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
   const [title, setTitle] = useState("");
+  const [showTagsModal, setShowTagsModal] = useState(false);
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -41,7 +42,13 @@ export function NoteList({
             <Link to="/new">
               <Button variant="primary">Create</Button>
             </Link>
-            <Button variant="outline-secondary">Edit Tags</Button>
+            <Button
+              onClick={() => {
+                setShowTagsModal(true);
+              }}
+              variant="outline-secondary">
+              Edit Tags
+            </Button>
           </Stack>
         </Col>
       </Row>
@@ -89,6 +96,9 @@ export function NoteList({
           );
         })}
       </Row>
+      <Modal show={showTagsModal} onHide={() => setShowTagsModal(false)}>
+        <Modal.Title>some modal</Modal.Title>
+      </Modal>
     </>
   );
 }

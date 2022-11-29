@@ -5,19 +5,27 @@ import ReactSelect from "react-select/creatable";
 import { Note, Tags } from "./App";
 import { v4 as uuidV4 } from "uuid";
 import { NoteCard } from "./NoteCard";
+import { Tag } from "@mui/icons-material";
 
 interface NoteListProps {
   availableTags: Tags[];
   notes: Note[];
+  onUpdateTag: (id: string, label: string) => void;
+  onDeleteTag: (id: string) => void;
 }
 
 export function NoteList({
   availableTags,
   notes,
+  onUpdateTag,
+  onDeleteTag,
 }: NoteListProps): React.ReactElement {
   const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
   const [title, setTitle] = useState("");
   const [showTagsModal, setShowTagsModal] = useState(false);
+
+  const handleClose = () => setShowTagsModal(false);
+  const handleShow = () => setShowTagsModal(true);
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -42,11 +50,7 @@ export function NoteList({
             <Link to="/new">
               <Button variant="primary">Create</Button>
             </Link>
-            <Button
-              onClick={() => {
-                setShowTagsModal(true);
-              }}
-              variant="outline-secondary">
+            <Button onClick={handleShow} variant="outline-secondary">
               Edit Tags
             </Button>
           </Stack>
@@ -96,8 +100,40 @@ export function NoteList({
           );
         })}
       </Row>
-      <Modal show={showTagsModal} onHide={() => setShowTagsModal(false)}>
-        <Modal.Title>some modal</Modal.Title>
+      <Modal
+        show={showTagsModal}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Tags</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Stack gap={2}>
+              {availableTags.map((tag) => (
+                <Row key={tag.id}>
+                  <Col>
+                    <Form.Control
+                      type="text"
+                      value={tag.label}
+                      onChange={(e) => onUpdateTag(tag.id, e.target.value)}
+                    />
+                  </Col>
+                  <Col xs="auto">
+                    <Button
+                      onClick={() => onDeleteTag(tag.id)}
+                      variant="outline-danger"
+                    >
+                      X
+                    </Button>
+                  </Col>
+                </Row>
+              ))}
+            </Stack>
+          </Form>
+        </Modal.Body>
       </Modal>
     </>
   );

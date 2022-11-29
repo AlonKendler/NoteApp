@@ -1,4 +1,4 @@
-# NoteApp is a simple react-ts (vite) application to show, create, edit and delete notes.
+### NoteApp is a simple react-ts (vite) application to show, create, edit and delete notes.
 
 Tech stack used  for UI:
 - react-bootsrap
@@ -7,9 +7,9 @@ Tech stack used  for UI:
 
 data is stored at localStorage , see useLocalStorage custom hook.
 
-To run code clone repo =>install deps =>  yarn run dev
+## To run code clone repo =>install deps =>  yarn run dev
 
-** TYPES as shown in app.tsx:
+### TYPES as shown in app.tsx:
 ```
 export type RawNote = {
   id: string;
